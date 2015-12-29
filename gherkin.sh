@@ -123,7 +123,7 @@ EVAL () {
     _nth "${ast}" 1; local a1="${r}"
     _nth "${ast}" 2; local a2="${r}"
     case "${ANON["${a0}"]}" in
-        def!) EVAL "${a2}" "${env}"
+        def)  EVAL "${a2}" "${env}"
               [[ "${__ERROR}" ]] && return 1
               ENV_SET "${env}" "${a1}" "${r}"
               return ;;
@@ -148,7 +148,7 @@ EVAL () {
               ast="${r}"
               # Continue loop
               ;;
-        defmacro!)
+        defmacro)
               EVAL "${a2}" "${env}"
               [[ "${__ERROR}" ]] && return 1
               ANON["${r}_ismacro_"]="yes"
@@ -165,10 +165,10 @@ EVAL () {
               done < <(eval ${ANON["${r}"]})
               _string "${output%\\n}"
               return ;;
-        try*) EVAL "${a1}" "${env}"
+        try)  EVAL "${a1}" "${env}"
               [[ -z "${__ERROR}" ]] && return
               _nth "${a2}" 0; local a20="${r}"
-              if [ "${ANON["${a20}"]}" == "catch__STAR__" ]; then
+              if [ "${ANON["${a20}"]}" == "catch" ]; then
                   _nth "${a2}" 1; local a21="${r}"
                   _nth "${a2}" 2; local a22="${r}"
                   _list "${a21}"; local binds="${r}"
@@ -176,7 +176,7 @@ EVAL () {
                   local try_env="${r}"
                   __ERROR=
                   EVAL "${a22}" "${try_env}"
-              fi  # if no catch* clause, just propagate __ERROR
+              fi  # if no catch clause, just propagate __ERROR
               return ;;
         do)   _count "${ast}"
               _slice "${ast}" 1 $(( ${r} - 2 ))
