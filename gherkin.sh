@@ -276,8 +276,7 @@ if [[ "${1}" ]]; then
 fi 
 
 # repl loop
-REP "(println (str \"Mal [\" *host-language* \"]\"))"
 while true; do
-    READLINE "user> " || exit "$?"
+    READLINE "> " || exit "$?"
     [[ "${r}" ]] && REP "${r}" && echo "${r}"
 done
