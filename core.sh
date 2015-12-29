@@ -25,41 +25,40 @@ obj_type () {
 }
 
 equal? () {
-    _equal? "${1}" "${2}" && r="${__true}" || r="${__false}"
+    _equal? "${1}" "${2}" && r="${__true}" || r="${__nil}"
 }
 
 
 # Scalar functions
 
-nil? () { _nil? "${1}" && r="${__true}" || r="${__false}"; }
-true? () { _true? "${1}" && r="${__true}" || r="${__false}"; }
-false? () { _false? "${1}" && r="${__true}" || r="${__false}"; }
+nil? () { _nil? "${1}" && r="${__true}" || r="${__nil}"; }
+true? () { _true? "${1}" && r="${__true}" || r="${__nil}"; }
 
 
 # Symbol functions
 
 symbol () { _symbol "${ANON["${1}"]}"; }
 
-symbol? () { _symbol? "${1}" && r="${__true}" || r="${__false}"; }
+symbol? () { _symbol? "${1}" && r="${__true}" || r="${__nil}"; }
 
 
 # Keyword functions
 
 keyword () { _keyword "${ANON["${1}"]}"; }
 
-keyword? () { _keyword? "${1}" && r="${__true}" || r="${__false}"; }
+keyword? () { _keyword? "${1}" && r="${__true}" || r="${__nil}"; }
 
 
 # Number functions
 
-number? () { _number? "${1}" && r="${__true}" || r="${__false}"; }
+number? () { _number? "${1}" && r="${__true}" || r="${__nil}"; }
 
 num_plus     () { r=$(( ${ANON["${1}"]} + ${ANON["${2}"]} )); _number "${r}"; }
 num_minus    () { r=$(( ${ANON["${1}"]} - ${ANON["${2}"]} )); _number "${r}"; }
 num_multiply () { r=$(( ${ANON["${1}"]} * ${ANON["${2}"]} )); _number "${r}"; }
 num_divide   () { r=$(( ${ANON["${1}"]} / ${ANON["${2}"]} )); _number "${r}"; }
 
-_num_bool     () { [[ "${1}" = "1" ]] && r="${__true}" || r="${__false}"; }
+_num_bool     () { [[ "${1}" = "1" ]] && r="${__true}" || r="${__nil}"; }
 num_gt       () { r=$(( ${ANON["${1}"]} >  ${ANON["${2}"]} )); _num_bool "${r}"; }
 num_gte      () { r=$(( ${ANON["${1}"]} >= ${ANON["${2}"]} )); _num_bool "${r}"; }
 num_lt       () { r=$(( ${ANON["${1}"]} <  ${ANON["${2}"]} )); _num_bool "${r}"; }
@@ -74,7 +73,7 @@ time_ms () {
 
 # String functions
 
-string? () { _string? "${1}" && r="${__true}" || r="${__false}"; }
+string? () { _string? "${1}" && r="${__true}" || r="${__nil}"; }
 
 pr_str () {
     local res=""
@@ -120,19 +119,19 @@ slurp () {
 
 
 # Function functions
-function? () { _function? "${1}" && r="${__true}" || r="${__false}"; }
+function? () { _function? "${1}" && r="${__true}" || r="${__nil}"; }
 
 
 # List functions
-list? () { _list? "${1}" && r="${__true}" || r="${__false}"; }
+list? () { _list? "${1}" && r="${__true}" || r="${__nil}"; }
 
 
 # Vector functions (same as lists for now)
-vector? () { _vector? "${1}" && r="${__true}" || r="${__false}"; }
+vector? () { _vector? "${1}" && r="${__true}" || r="${__nil}"; }
 
 
 # Hash map (associative array) functions
-hash_map? () { _hash_map? "${1}" && r="${__true}" || r="${__false}"; }
+hash_map? () { _hash_map? "${1}" && r="${__true}" || r="${__nil}"; }
 
 # Return new hash map with keys/values updated
 assoc () {
@@ -186,7 +185,7 @@ get () {
     [[ "${r}" ]] || r="${__nil}"
 }
 
-contains? () { _contains? "${1}" "${ANON["${2}"]}" && r="${__true}" || r="${__false}"; }
+contains? () { _contains? "${1}" "${ANON["${2}"]}" && r="${__true}" || r="${__nil}"; }
 
 keys () {
     local obj="${ANON["${1}"]}"
@@ -221,7 +220,7 @@ vals () {
 # sequence operations
 
 sequential? () {
-    _sequential? "${1}" && r="${__true}" || r="${__false}"
+    _sequential? "${1}" && r="${__true}" || r="${__nil}"
 }
 
 cons () {
@@ -245,7 +244,7 @@ nth () {
     fi
 }
 
-empty? () { _empty? "${1}" && r="${__true}" || r="${__false}"; }
+empty? () { _empty? "${1}" && r="${__true}" || r="${__nil}"; }
 
 count () {
     _count "${1}"
@@ -301,7 +300,7 @@ meta () {
 
 # Atom functions
 
-atom? () { _atom? "${1}" && r="${__true}" || r="${__false}"; }
+atom? () { _atom? "${1}" && r="${__true}" || r="${__nil}"; }
 deref () {
     # TODO: double-check atom type
     r=${ANON["${1}"]}
@@ -328,7 +327,6 @@ declare -A core_ns=(
     [throw]=throw
     [nil?]=nil?
     [true?]=true?
-    [false?]=false?
     [symbol]=symbol
     [symbol?]=symbol?
     [keyword]=keyword
@@ -370,6 +368,7 @@ declare -A core_ns=(
     [nth]=nth
     [first]=_first
     [rest]=_rest
+    [next]=_next
     [empty?]=empty?
     [count]=count
     [conj]=conj

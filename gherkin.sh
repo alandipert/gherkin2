@@ -188,7 +188,7 @@ EVAL () {
               ;;
         if)   EVAL "${a1}" "${env}"
               [[ "${__ERROR}" ]] && return 1
-              if [[ "${r}" == "${__false}" || "${r}" == "${__nil}" ]]; then
+              if [[ "${r}" == "${__nil}" ]]; then
                   # eval false form
                   _nth "${ast}" 3; local a3="${r}"
                   if [[ "${a3}" ]]; then
@@ -263,11 +263,11 @@ _symbol "__STAR__ARGV__STAR__"
 ENV_SET "${REPL_ENV}" "${r}" "${argv}";
 
 # core.mal: defined using the language itself
-REP "(def! *host-language* \"bash\")"
-REP "(def! not (fn* (a) (if a false true)))"
-REP "(def! load-file (fn* (f) (eval (read-string (str \"(do \" (slurp f) \")\")))))"
-REP "(defmacro! cond (fn* (& xs) (if (> (count xs) 0) (list 'if (first xs) (if (> (count xs) 1) (nth xs 1) (throw \"odd number of forms to cond\")) (cons 'cond (rest (rest xs)))))))"
-REP "(defmacro! or (fn* (& xs) (if (empty? xs) nil (if (= 1 (count xs)) (first xs) \`(let* (or_FIXME ~(first xs)) (if or_FIXME or_FIXME (or ~@(rest xs))))))))"
+REP "(def not (fn* (a) (if a nil true)))"
+REP "(def load-file (fn* (f) (eval (read-string (str \"(do \" (slurp f) \")\")))))"
+REP "(def next (xs) (let* (r (rest xs)) (if (not (empty? r)) r)))"
+REP "(defmacro cond (fn* (& xs) (if (> (count xs) 0) (list 'if (first xs) (if (> (count xs) 1) (nth xs 1) (throw \"odd number of forms to cond\")) (cons 'cond (rest (rest xs)))))))"
+REP "(defmacro or (fn* (& xs) (if (empty? xs) nil (if (= 1 (count xs)) (first xs) \`(let* (or_FIXME ~(first xs)) (if or_FIXME or_FIXME (or ~@(rest xs))))))))"
 
 # load/run file from command line (then exit)
 if [[ "${1}" ]]; then

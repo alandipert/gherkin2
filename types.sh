@@ -61,7 +61,6 @@ _obj_type () {
             fi ;;
         _nil) r="nil" ;;
         true) r="true" ;;
-        fals) r="false" ;;
         vect) r="vector" ;;
         hmap) r="hash_map" ;;
         atom) r="atom" ;;
@@ -114,12 +113,9 @@ _equal? () {
 
 __nil=_nil_0
 __true=true_0
-__false=fals_0
 
 _nil? () { [[ ${1} =~ ^_nil_ ]]; }
 _true? () { [[ ${1} =~ ^true_ ]]; }
-_false? () { [[ ${1} =~ ^fals_ ]]; }
-
 
 # Symbols
 

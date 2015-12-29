@@ -20,7 +20,6 @@ _pr_str () {
 
 nil_pr_str () { r="nil"; }
 true_pr_str () { r="true"; }
-false_pr_str () { r="false"; }
 
 number_pr_str () { r="${ANON["${1}"]}"; }
 

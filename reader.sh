@@ -20,7 +20,6 @@ READ_ATOM () {
         :*)     _keyword "${token:1}" ;;
         nil)    r="${__nil}" ;;
         true)   r="${__true}" ;;
-        false)  r="${__false}" ;;
         *)      _symbol "${token}" ;;
     esac
 }
