@@ -87,18 +87,6 @@ EVAL_AST () {
         return ;;
     list)
         _map_with_type _list EVAL "${ast}" "${env}" ;;
-    vector)
-        _map_with_type _vector EVAL "${ast}" "${env}" ;;
-    hash_map)
-        local res="" key= val="" hm="${ANON["${ast}"]}"
-        _hash_map; local new_hm="${r}"
-        eval local keys="\${!${hm}[@]}"
-        for key in ${keys}; do
-            eval val="\${${hm}[\"${key}\"]}"
-            EVAL "${val}" "${env}"
-            _assoc! "${new_hm}" "${key}" "${r}"
-        done
-        r="${new_hm}" ;;
     *)
         r="${ast}" ;;
     esac
