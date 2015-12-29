@@ -83,15 +83,9 @@ READ_FORM () {
                 _symbol deref; local d="${r}"
                 READ_FORM; local f="${r}"
                 _list "${d}" "${f}" ;;
-        \))     _error "unexpected ')'" ;; 
+        \))     _error "unexpected ')'" ;;
         \()     READ_SEQ "(" ")"
                 _list ${r} ;;
-        \])     _error "unexpected ']'" ;; 
-        \[)     READ_SEQ "[" "]"
-                _vector ${r} ;;
-        \})     _error "unexpected '}'" ;; 
-        \{)     READ_SEQ "{" "}"
-                _hash_map ${r} ;;
         *)      READ_ATOM
     esac
 }

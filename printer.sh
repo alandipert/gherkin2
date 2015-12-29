@@ -71,7 +71,7 @@ hash_map_pr_str () {
         _pr_str "${val}" "${print_readably}"
         res="${res} ${r}"
     done
-    r="{${res:1}}"
+    r="(hash-map ${res:1})"
 }
 
 vector_pr_str () {
@@ -81,7 +81,7 @@ vector_pr_str () {
         _pr_str "${elem}" "${print_readably}"
         res="${res} ${r}"
     done
-    r="[${res:1}]"
+    r="(vector ${res:1})"
 }
 
 list_pr_str () {
